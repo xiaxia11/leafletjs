@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+   integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+   crossorigin=""/>
+</head>
+<style type="text/css">
+	#mapid { 
+		
+		height: 600px;
+
+	}
+	.leaflet-marker-icon leaflet-zoom-animated leaflet-interactive {
+		background: red;
+	}
+</style>
+
+<body>
+ <div id="mapid"></div>
+ <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+crossorigin=""></script>
+<script type="text/javascript">
+	//设置地图视图中心
+	var mymap = L.map('mapid').setView([116.354490,39.988283], 13);
+	
+	//添加标记
+	var marker = L.marker([116.354490,39.988283]).addTo(mymap);
+	//添加图形圆
+	var circle = L.circle([116.354490,39.988283], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(mymap);
+	
+	//多边形
+	var polygon = L.polygon([
+	    [116.384490,-37.988283],
+	    [116.354490,-34.988283],
+	    [116.314490,-39.088283]
+	]).addTo(mymap);
+
+	//使用弹出窗口
+	marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+	circle.bindPopup("I am a circle.");
+	polygon.bindPopup("I am a polygon.");
+
+	//需要的东西添加到弹出窗口附加到对象
+	var popup = L.popup()
+    .setLatLng([116.354490,39.988283])
+    .setContent("I am a standalone popup.")
+    .openOn(mymap);
+
+    //每次点击画布的时候  显示经纬度
+    var popup = L.popup();
+
+	function onMapClick(e) {
+	    popup
+	        .setLatLng(e.latlng)
+	        .setContent("You clicked the map at " + e.latlng.toString())
+	        .openOn(mymap);
+	}
+
+	mymap.on('click', onMapClick);
+</script>
+</body>
+</html>
